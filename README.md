@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="https://vercel.com/new/clone?repository-url=https://github.com/MeiSiristhebest/demon-slayer-counter">
+  <a href="https://vercel.com/new/import?s=https://github.com/MeiSiristhebest/demon-slayer-counter">
     <img src="https://vercel.com/button" alt="Deploy with Vercel" height="36" />
   </a>
 </p>
