@@ -8,14 +8,22 @@
 
 <p align="center">
   <a href="https://vercel.com/new/import?s=https://github.com/MeiSiristhebest/demon-slayer-counter">
-    <img src="https://vercel.com/button" alt="Deploy with Vercel" height="36" />
+    <img src="https://vercel.com/button" alt="Deploy with Vercel" height="38" />
   </a>
 </p>
 
+<!-- 🛠️ 核心技术栈与组件 Badges -->
 <p align="center">
-  <img src="https://img.shields.io/badge/Style-Cel--Shading%20Anime-ff4757.svg?style=for-the-badge&logo=anime" alt="Anime Style" />
-  <img src="https://img.shields.io/badge/Format-Transparent%20WebP-2ed573.svg?style=for-the-badge" alt="WebP Format" />
-  <img src="https://img.shields.io/badge/Deploy-Vercel%20%2F%20Serverless-1e90ff.svg?style=for-the-badge&logo=vercel" alt="Serverless" />
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Vercel%20Serverless-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
+  <img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" />
+  <img src="https://img.shields.io/badge/SVG-FF9900?style=for-the-badge&logo=svg&logoColor=white" alt="SVG" />
+  <img src="https://img.shields.io/badge/WebP%20Compression-0055FF?style=for-the-badge&logo=webp&logoColor=white" alt="WebP" />
+  <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy" />
+  <img src="https://img.shields.io/badge/Pillow-110055?style=for-the-badge&logo=python&logoColor=white" alt="Pillow" />
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
+  <img src="https://img.shields.io/badge/CSS3%20Glassmorphism-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
   <img src="https://img.shields.io/badge/License-MIT-ffa502.svg?style=for-the-badge" alt="License" />
 </p>
 
@@ -25,6 +33,21 @@
 <img src="assets/demon-slayer/preview.png" alt="鬼灭全明星 0~9 全景预览" width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.5);" />
 
 </div>
+
+---
+
+## 🛠️ 技术栈与核心组件 (Tech Stack & Architecture)
+
+本项目结合了**前端二次元动态渲染**与**后端 Serverless 图像合成技术**，所采用的核心技术栈包含：
+
+| 分类 (Category) | 技术 / 工具 (Technology) | 用途说明 (Usage & Details) |
+|---|---|---|
+| **Serverless Backend** | **Vercel Functions / Node.js** | 响应动态计数请求，生成适配 GitHub Camo 代理的无缓存矢量 SVG 图片 |
+| **Edge Compute** | **Cloudflare Workers** | 边缘节点秒级无感响应，处理全局并发递增计数 |
+| **Image Pipeline** | **Python 3 / Pillow / NumPy** | 使用外围 Seed-based FloodFill 算法精准抠除白背景并应用 Alpha 边缘平滑抗锯齿 |
+| **Image Format** | **WebP / SVG (Base64)** | 无损高压缩率 WebP Asset 编码，体积减少 45%+，内嵌于 SVG 矢量结构 |
+| **Frontend Test UI** | **Vanilla HTML5 / CSS3 / ES6 JS** | 深色二次元赛博拟态 (Glassmorphism) Playground，支持实时手势微动与数字拼接 |
+| **Version Control** | **Git / GitHub Actions** | 自动化版本控制与 CI/CD 服务流 |
 
 ---
 
@@ -51,7 +74,7 @@
 
 点击下方按钮直接将项目一键导入并部署至你的 Vercel 账号：
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/MeiSiristhebest/demon-slayer-counter)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/import?s=https://github.com/MeiSiristhebest/demon-slayer-counter)
 
 ### 步骤 2：在 GitHub Profile README 中插入代码
 
@@ -71,7 +94,6 @@
 |---|---|---|---|
 | `name` | `string` | `visitor` | 计数器标识键（如你的 GitHub 用户名） |
 | `length` | `number` | `6` | 最小数字显示位数（不足时自动补 0，如 `001234`） |
-| `theme` | `string` | `demon-slayer` | 主题名称（默认 `demon-slayer`） |
 
 ---
 
