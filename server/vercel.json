@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/counter",
+      "dest": "/api/counter.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/counter.js"
+    }
+  ]
+}

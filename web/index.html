@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《鬼灭之刃全明星》动态计数器系统</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="background-effects">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <header class="app-header">
+    <div class="header-badge">🔥 鬼灭全明星 0~9 独家呈现</div>
+    <h1 class="app-title">Moe-Counter <span class="gradient-text">鬼灭动态计数器</span></h1>
+    <p class="app-subtitle">基于 0~9 角色立绘考据画风的二次元动态数字卡牌计数器，打通智能去背景、无损 WebP 压缩与动态响应式拼接。</p>
+  </header>
+
+  <main class="app-container">
+    <!-- Interactive Counter Playground -->
+    <section class="card playground-section">
+      <div class="section-header">
+        <h2 class="section-title">✨ 实时数字拼接测试器</h2>
+        <div class="badge">鬼灭全明星专属</div>
+      </div>
+
+      <div class="control-panel">
+        <div class="input-group">
+          <label for="counterInput">输入测试数字 (即时渲染):</label>
+          <div class="input-wrapper">
+            <input type="text" id="counterInput" value="0123456789" placeholder="例如: 12345, 2026..." maxlength="12">
+            <button id="btnInc" class="btn btn-icon" title="数字 +1">+1</button>
+            <button id="btnRandom" class="btn btn-secondary">🎲 随机数字</button>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="setting-item">
+            <span>图像格式:</span>
+            <label class="radio-label">
+              <input type="radio" name="imgFormat" value="webp" checked> WebP (推荐/无损高效)
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="imgFormat" value="png"> PNG (兼容)
+            </label>
+          </div>
+          <div class="setting-item">
+            <span>微动特效:</span>
+            <label class="switch">
+              <input type="checkbox" id="animateToggle" checked>
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Display Stage -->
+      <div class="stage-container">
+        <div class="stage-background"></div>
+        <div id="counterStage" class="counter-stage">
+          <!-- Dynamically inserted character card elements -->
+        </div>
+        <div class="stage-meta">
+          <span id="digitCountMeta">共 10 位数字</span>
+          <span id="themeMeta">主题: 鬼灭之刃全明星 0~9</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10-Character Lineup Preview -->
+    <section class="card preview-section">
+      <div class="section-header">
+        <h2 class="section-title">🖼️ 10连排立绘视觉对齐校验 (Preview Grid)</h2>
+        <span class="badge">480px 标准化高度</span>
+      </div>
+      <p class="section-desc">鬼灭 0~9 角色剔除背景透明化后，按统一 480px 高度横向对齐拼接，校验身体比例、持牌高度与色彩饱和度的一致性。</p>
+      
+      <div class="preview-img-container">
+        <img id="gridPreviewImg" src="assets/demon-slayer/preview.png" alt="鬼灭全明星 10连排立绘预览图" class="preview-grid-img">
+      </div>
+    </section>
+
+    <!-- 0~9 Character All-Star Gallery -->
+    <section class="card gallery-section">
+      <div class="section-header">
+        <h2 class="section-title">🎭 0 ~ 9 鬼灭全明星考据画廊</h2>
+      </div>
+
+      <div id="characterGallery" class="gallery-grid">
+        <!-- Dynamically populated 10 character cards -->
+      </div>
+    </section>
+
+    <!-- GitHub Profile Embed Generator -->
+    <section class="card embed-section">
+      <div class="section-header">
+        <h2 class="section-title">🔗 GitHub Profile README 嵌入代码生成</h2>
+      </div>
+      <p class="section-desc">复制下方代码一键粘贴至你的 GitHub 个人主页 `README.md` 中即可直接展示！</p>
+
+      <div class="embed-boxes">
+        <div class="embed-box">
+          <div class="embed-box-header">
+            <span>Markdown 嵌入代码</span>
+            <button class="btn btn-small btn-copy" data-target="codeMarkdown">复制</button>
+          </div>
+          <pre><code id="codeMarkdown">[![Demon Slayer Counter](https://your-counter.vercel.app/api/counter?name=YOUR_GITHUB_USERNAME)](https://github.com/YOUR_GITHUB_USERNAME)</code></pre>
+        </div>
+
+        <div class="embed-box">
+          <div class="embed-box-header">
+            <span>HTML 嵌入代码</span>
+            <button class="btn btn-small btn-copy" data-target="codeHTML">复制</button>
+          </div>
+          <pre><code id="codeHTML">&lt;img src="https://your-counter.vercel.app/api/counter?name=YOUR_GITHUB_USERNAME" alt="Demon Slayer Counter" /&gt;</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>鬼灭之刃全明星 Moe-Counter 动态计数器 | Powered by Antigravity AI Engine</p>
+  </footer>
+
+  <div id="toast" class="toast">代码已成功复制到剪贴板！</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
