@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   const digitsAssets = ASSETS[currentTheme];
 
   const key = `${currentTheme}:${name}`;
-  const count = (memoryStore.get(key) || 1000) + 1;
+  const count = (memoryStore.get(key) || 0) + 1;
   memoryStore.set(key, count);
 
   const minLen = parseInt(length, 10) || 6;
