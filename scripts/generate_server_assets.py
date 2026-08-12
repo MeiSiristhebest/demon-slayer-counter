@@ -51,21 +51,49 @@ def build_vercel_serverless(theme_assets):
     
     code = f'''// Vercel Serverless Function for GitHub Profile Dynamic Counter
 // Theme: Demon Slayer (鬼灭之刃全明星 0~9)
+// Supports Vercel KV / Upstash Redis for 100% permanent persistence
 
 const ASSETS = {assets_json_str};
 const memoryStore = new Map();
 
 export default async function handler(req, res) {{
-  const {{ name = 'visitor', theme = 'demon-slayer', length = '6' }} = req.query;
+  const {{ name = 'visitor', theme = 'demon-slayer', length = '7' }} = req.query;
 
   const currentTheme = 'demon-slayer';
   const digitsAssets = ASSETS[currentTheme];
-
   const key = `${{currentTheme}}:${{name}}`;
-  const count = (memoryStore.get(key) || 0) + 1;
-  memoryStore.set(key, count);
 
-  const minLen = parseInt(length, 10) || 6;
+  let count = 1;
+  let hasPersistentStore = false;
+
+  // 1. Try Vercel KV / Upstash Redis REST API (100% Permanent Storage)
+  const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const kvToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (kvUrl && kvToken) {{
+    try {{
+      const kvRes = await fetch(`${{kvUrl}}/incr/${{encodeURIComponent(key)}}`, {{
+        headers: {{ Authorization: `Bearer ${{kvToken}}` }}
+      }});
+      if (kvRes.ok) {{
+        const kvData = await kvRes.json();
+        if (typeof kvData.result === 'number') {{
+          count = kvData.result;
+          hasPersistentStore = true;
+        }}
+      }}
+    }} catch (err) {{
+      console.error('Vercel KV fetch error:', err);
+    }}
+  }}
+
+  // 2. Fallback to Memory Store if KV not connected
+  if (!hasPersistentStore) {{
+    count = (memoryStore.get(key) || 0) + 1;
+    memoryStore.set(key, count);
+  }}
+
+  const minLen = parseInt(length, 10) || 7;
   const countStr = count.toString().padStart(minLen, '0');
 
   const digits = countStr.split('');
@@ -95,7 +123,7 @@ export default async function handler(req, res) {{
 '''
     with open(os.path.join(API_DIR, 'counter.js'), 'w', encoding='utf-8') as f:
         f.write(code)
-    print("Generated Demon Slayer Vercel Function: server/api/counter.js")
+    print("Generated Persistent Vercel Function: server/api/counter.js")
 
 def main():
     print("Generating server Base64 assets (Demon Slayer only)...")
