@@ -65,6 +65,7 @@ export default async function handler(req, res) {{
 
   let count = 1;
   let hasPersistentStore = false;
+  let kvErrorMsg = '';
 
   // 1. Try Vercel KV / Upstash Redis REST API (100% Permanent Storage)
   const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -80,11 +81,18 @@ export default async function handler(req, res) {{
         if (typeof kvData.result === 'number') {{
           count = kvData.result;
           hasPersistentStore = true;
+        }} else {{
+          kvErrorMsg = `Invalid result format: ${{JSON.stringify(kvData)}}`;
         }}
+      }} else {{
+        const errText = await kvRes.text();
+        kvErrorMsg = `HTTP ${{kvRes.status}}: ${{errText}}`;
       }}
     }} catch (err) {{
-      console.error('Vercel KV fetch error:', err);
+      kvErrorMsg = `Fetch exception: ${{err.message}}`;
     }}
+  }} else {{
+    kvErrorMsg = `Missing Env: kvUrl=${{Boolean(kvUrl)}}, kvToken=${{Boolean(kvToken)}}`;
   }}
 
   // 2. Fallback to Memory Store if KV not connected
@@ -118,21 +126,18 @@ export default async function handler(req, res) {{
   res.setHeader('Cache-Control', 'max-age=0, no-cache, no-store, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
+  res.setHeader('X-Storage-Type', hasPersistentStore ? 'Vercel-KV' : 'Memory-Fallback');
+  res.setHeader('X-KV-Debug', kvErrorMsg.replace(/[^a-zA-Z0-9 =:_.-]/g, ''));
   res.status(200).send(svg);
 }}
 '''
     with open(os.path.join(API_DIR, 'counter.js'), 'w', encoding='utf-8') as f:
         f.write(code)
-    print("Generated Persistent Vercel Function: server/api/counter.js")
+    print("Generated Persistent Vercel Function with Diagnostics")
 
 def main():
-    print("Generating server Base64 assets (Demon Slayer only)...")
     theme_assets = generate_base64_dict()
     build_vercel_serverless(theme_assets)
-    
-    with open(os.path.join(SERVER_DIR, 'assets.json'), 'w', encoding='utf-8') as f:
-        json.dump(theme_assets, f, ensure_ascii=False, indent=2)
-    print("Saved server/assets.json")
 
 if __name__ == '__main__':
     main()

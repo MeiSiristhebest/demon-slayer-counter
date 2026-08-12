@@ -14,6 +14,7 @@ export default async function handler(req, res) {
 
   let count = 1;
   let hasPersistentStore = false;
+  let kvErrorMsg = '';
 
   // 1. Try Vercel KV / Upstash Redis REST API (100% Permanent Storage)
   const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -29,11 +30,18 @@ export default async function handler(req, res) {
         if (typeof kvData.result === 'number') {
           count = kvData.result;
           hasPersistentStore = true;
+        } else {
+          kvErrorMsg = `Invalid result format: ${JSON.stringify(kvData)}`;
         }
+      } else {
+        const errText = await kvRes.text();
+        kvErrorMsg = `HTTP ${kvRes.status}: ${errText}`;
       }
     } catch (err) {
-      console.error('Vercel KV fetch error:', err);
+      kvErrorMsg = `Fetch exception: ${err.message}`;
     }
+  } else {
+    kvErrorMsg = `Missing Env: kvUrl=${Boolean(kvUrl)}, kvToken=${Boolean(kvToken)}`;
   }
 
   // 2. Fallback to Memory Store if KV not connected
@@ -67,5 +75,7 @@ export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'max-age=0, no-cache, no-store, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
+  res.setHeader('X-Storage-Type', hasPersistentStore ? 'Vercel-KV' : 'Memory-Fallback');
+  res.setHeader('X-KV-Debug', kvErrorMsg.replace(/[^a-zA-Z0-9 =:_.-]/g, ''));
   res.status(200).send(svg);
 }
