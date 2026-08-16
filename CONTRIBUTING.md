@@ -1,27 +1,14 @@
-# 🤝 贡献指南 (Contributing Guide)
+# Contributing Guide
 
-感谢你对 **Demon Slayer Profile Counter** 项目感兴趣！
+Thank you for contributing! We welcome bug fixes, improvements, and architecture discussions.
 
----
+## 🚦 Contribution Workflow (Trunk-Based)
+1. **Find or Open an Issue**: Ensure the task has an associated issue or Milestone.
+2. **Branch from `main`**: Use descriptive branch names like `feat/feature-name` or `fix/bug-name`.
+3. **Write Unit Tests**: Every bug fix or feature must include deterministic test coverage.
+4. **Adhere to Conventional Commits**: `feat: ...`, `fix: ...`, `docs: ...`, `chore: ...`.
+5. **Open a PR**: Fill out the PR template with clear verification evidence.
 
-## 🎨 提交新功能与优化
-
-1. **Fork 本仓库** 到你自己的 GitHub 账号。
-2. **创建 Feature 分支**：
-   ```bash
-   git checkout -b feat/your-feature-name
-   ```
-3. **提交修改与 Commit**：
-   请遵循常规提交规范（Conventional Commits），如 `feat: ...` 或 `fix: ...`。
-4. **发起 Pull Request (PR)**：
-   在 GitHub 上提交 PR，我们会第一时间审核并合并！
-
----
-
-## 🛠️ 重新打包 Base64 资产
-
-若你修改了图片资产或增加了缩放尺寸，请运行以下 Python 脚本重新构建 API 依赖包：
-```bash
-python scripts/generate_server_assets.py
-```
-然后再提交代码。
+## 🛡️ Anti-Noise & AI PR Policy
+- We strictly reject low-effort, unverified AI-generated PRs that do not include local test verification or proof of correctness.
+- Keep diffs focused and minimal (prefer single-concern PRs).
